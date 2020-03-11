@@ -7,26 +7,26 @@ const pkg = require('../package')
 module.exports = function (source) {
   this.cacheable()
   const _this = this
-  const vuxConfig = this.vux || utils.getLoaderConfig(this, 'vux')
+  const vuxConfig = this.vux || utils.getLoaderConfig(this, 'vux-plus')
  
-  if (vuxConfig.options.useVuxUI && /}\s+from(.*?)('|")vux/.test(source)) {
+  if (vuxConfig.options.useVuxUI && /}\s+from(.*?)('|")vux-plus/.test(source)) {
     const parser = require('./libs/import-parser')
     const maps = this.vuxMaps || utils.getLoaderConfig(this, 'vuxMaps')
     source = parser(source, function (opts) {
       let str = ''
       opts.components.forEach(function (component) {
-        let file = `vux/${maps[component.originalName]}`
+        let file = `vux-plus/${maps[component.originalName]}`
         if (vuxConfig.options.vuxDev) {
           if (vuxConfig.options.resolveVuxDir) {
-            file = file.replace('vux/src/', vuxConfig.options.resolveVuxDir)
+            file = file.replace('vux-plus/src/', vuxConfig.options.resolveVuxDir)
           } else {
-            file = file.replace('vux/src/', './')
+            file = file.replace('vux-plus/src/', './')
           }
         }
         str += `import ${component.newName} from '${file}'\n`
       })
       return str
-    }, 'vux')
+    }, 'vux-plus')
     
   }
 
@@ -52,14 +52,14 @@ module.exports = function (source) {
   /**
   if (/main\.js/.test(this.resourcePath) && process.env.NODE_ENV === 'development') {
     if (this.options && this.options.context) {
-      const pkgPath = vuxConfig.options.vuxDev ? path.join(this.options.context, 'package.json') : path.join(this.options.context, 'node_modules/vux/package.json')
+      const pkgPath = vuxConfig.options.vuxDev ? path.join(this.options.context, 'package.json') : path.join(this.options.context, 'node_modules/vux-plus/package.json')
       const vuxPkg = require(pkgPath)
       const webpackPath = path.join(this.options.context, 'node_modules/webpack/package.json')
       const webpackPkg = require(webpackPath)
       const nodeVersion = process.version.match(/^v(\d+\.\d+)/)[1]
       const style = 'background: #35495e; color: yellow;'
       if (typeof vuxConfig.options.showVuxVersionInfo === 'undefined' || vuxConfig.options.showVuxVersionInfo === true) {
-        source += `\n;console.info('[VUX] %cvux@${vuxPkg.version}, vux-loader@${pkg.version}, webpack@${webpackPkg.version}, node@${nodeVersion}\\n%c[VUX] 建议反馈请访问 https://github.com/airyland/vux/issues \\n[VUX] 关闭该提示请在 vux-loader 配置  options: { showVuxVersionInfo: false }', '${style}', '')`
+        source += `\n;console.info('[VUX] %cvux@${vuxPkg.version}, vux-plus-loader@${pkg.version}, webpack@${webpackPkg.version}, node@${nodeVersion}\\n%c[VUX] 建议反馈请访问 https://github.com/zhengoogle/vux-plus/issues \\n[VUX] 关闭该提示请在 vux-plus-loader 配置  options: { showVuxVersionInfo: false }', '${style}', '')`
       }
     }
   }

@@ -69,7 +69,7 @@ module.exports = function (source) {
   var query = this.query ? utils.parseQuery(this.query) : {}
   this.cacheable()
   if (!source) return source
-  const config = this.vux || utils.getLoaderConfig(this, 'vux')
+  const config = this.vux || utils.getLoaderConfig(this, 'vux-plus')
   if (!config) {
     return source
   }
@@ -99,7 +99,7 @@ module.exports = function (source) {
 
   // fix style path in dev mode
   if (config.options.vuxDev) {
-    source = source.replace(/vux\/src\/styles\/(.*?)/g, '../styles/$1')
+    source = source.replace(/vux-plus\/src\/styles\/(.*?)/g, '../styles/$1')
   }
 
   return source
@@ -227,7 +227,7 @@ module.exports.merge = function (oldConfig, vuxConfig) {
 
   let vuxVersion
   try {
-    let vuePackagePath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux/package.json')
+    let vuePackagePath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux-plus/package.json')
     vuxVersion = require(vuePackagePath).version
   } catch (e) {}
 
@@ -270,14 +270,14 @@ module.exports.merge = function (oldConfig, vuxConfig) {
     if (!config.vue) {
       config.vue = {
         loaders: {
-          i18n: 'vux-loader/src/noop-loader.js'
+          i18n: 'vux-plus-loader/src/noop-loader.js'
         }
       }
     } else {
       if (!config.vue.loaders) {
         config.vue.loaders = {}
       }
-      config.vue.loaders.i18n = 'vux-loader/src/noop-loader.js'
+      config.vue.loaders.i18n = 'vux-plus-loader/src/noop-loader.js'
     }
   }
 
@@ -327,7 +327,7 @@ module.exports.merge = function (oldConfig, vuxConfig) {
   }
 
   if (hasPlugin('vux-ui', vuxConfig.plugins)) {
-    let mapPath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux/src/components/map.json')
+    let mapPath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux-plus/src/components/map.json')
     if (vuxConfig.options.vuxDev) {
       mapPath = path.resolve(vuxConfig.options.projectRoot, 'src/components/map.json')
     }
@@ -345,7 +345,7 @@ module.exports.merge = function (oldConfig, vuxConfig) {
 
   // get less variable alias
   if (hasPlugin('vux-ui', vuxConfig.plugins)) {
-    let variablePath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux/src/styles/variable.less')
+    let variablePath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux-plus/src/styles/variable.less')
     if (vuxConfig.options.vuxDev) {
       variablePath = path.resolve(vuxConfig.options.projectRoot, 'src/styles/variable.less')
     }
@@ -378,7 +378,7 @@ module.exports.merge = function (oldConfig, vuxConfig) {
    * ======== read vux locales and set globally ========
    */
   if (hasPlugin('vux-ui', vuxConfig.plugins)) {
-    let vuxLocalesPath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux/src/locales/all.yml')
+    let vuxLocalesPath = path.resolve(vuxConfig.options.projectRoot, 'node_modules/vux-plus/src/locales/all.yml')
     if (vuxConfig.options.vuxDev) {
       vuxLocalesPath = path.resolve(vuxConfig.options.projectRoot, 'src/locales/all.yml')
     }
@@ -399,9 +399,9 @@ module.exports.merge = function (oldConfig, vuxConfig) {
   }
 
   /**
-   * ======== append vux-loader ========
+   * ======== append vux-plus-loader ========
    */
-  let loaderString = vuxConfig.options.loaderString || 'vux-loader!vue-loader'
+  let loaderString = vuxConfig.options.loaderString || 'vux-plus-loader!vue-loader'
   const rewriteConfig = vuxConfig.options.rewriteLoaderString
   if (typeof rewriteConfig === 'undefined' || rewriteConfig === true) {
     let hasAppendVuxLoader = false
@@ -418,7 +418,7 @@ module.exports.merge = function (oldConfig, vuxConfig) {
         } else if (isWebpack2 && (rule.options || rule.query) && !hasVueLoader) {
           delete rule.loader
           rule.use = [
-         'vux-loader',
+         'vux-plus-loader',
             {
               loader: 'vue-loader',
               options: rule.options,
@@ -428,11 +428,11 @@ module.exports.merge = function (oldConfig, vuxConfig) {
           delete rule.query
         } else if (isWebpack2 && hasVueLoader) {
           if (Array.isArray(rule.use)) {
-            rule.use.unshift('vux-loader')
+            rule.use.unshift('vux-plus-loader')
           } else if (typeof rule.use === 'object' && rule.use.loader === 'vue-loader') {
             let oldRule = rule.use
             rule.use = [
-              'vux-loader',
+              'vux-plus-loader',
               oldRule
             ]
           }
@@ -511,7 +511,7 @@ module.exports.merge = function (oldConfig, vuxConfig) {
    */
   if (hasPlugin('vux-ui', vuxConfig.plugins)) {
     if (typeof vuxConfig.options.vuxSetBabel === 'undefined' || vuxConfig.options.vuxSetBabel === true) {
-      config.module[loaderKey].push(getBabelLoader(vuxConfig.options.projectRoot, 'vux', vuxConfig.options.vuxDev))
+      config.module[loaderKey].push(getBabelLoader(vuxConfig.options.projectRoot, 'vux-plus', vuxConfig.options.vuxDev))
     }
   }
 
@@ -750,7 +750,7 @@ function addStyleLoader(source, STYLE, variables, AFTER_LESS_STYLE) {
  * use babel so component's js can be compiled
  */
 function getBabelLoader(projectRoot, name, isDev) {
-  name = name || 'vux'
+  name = name || 'vux-plus'
   if (!projectRoot) {
     projectRoot = path.resolve(__dirname, '../../../')
     if (/\.npm/.test(projectRoot)) {

@@ -9,7 +9,7 @@ function parse(source, fn, moduleName) {
   source = source.replace(/\/\/\n/g, '')
   source = trimLine(source)
   
-  moduleName = moduleName || 'vux'
+  moduleName = moduleName || 'vux-plus'
   if ((moduleName && source.indexOf(moduleName) === -1) || source.indexOf('import') === -1) {
     return source
   }

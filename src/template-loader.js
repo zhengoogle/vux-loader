@@ -24,13 +24,13 @@ module.exports = function (source) {
   const _this = this
   this.cacheable()
   const query = this.query ? utils.parseQuery(this.query) : {}
-  const config = this.vux || utils.getLoaderConfig(this, 'vux')
+  const config = this.vux || utils.getLoaderConfig(this, 'vux-plus')
   if (!config.plugins || !config.plugins.length) {
     return source
   }
   const basename = path.basename(this.resourcePath)
-  let isVuxVueFile = this.resourcePath.replace(/\\/g, '/').indexOf('vux/src/components') > -1
-  let isVuxVueDemo = this.resourcePath.replace(/\\/g, '/').indexOf('vux/src/demos') > -1
+  let isVuxVueFile = this.resourcePath.replace(/\\/g, '/').indexOf('vux-plus/src/components') > -1
+  let isVuxVueDemo = this.resourcePath.replace(/\\/g, '/').indexOf('vux-plus/src/demos') > -1
   if (config.options.vuxDev && this.resourcePath.replace(/\\/g, '/').indexOf('src/components') > -1) {
     isVuxVueFile = true
   }

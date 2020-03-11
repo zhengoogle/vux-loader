@@ -1,13 +1,13 @@
 {
-  "name": "vux-loader",
-  "version": "1.2.9",
+  "name": "vux-plus-loader",
+  "version": "1.0.0",
   "description": "extended loader for vue-loader",
   "main": "src/index.js",
   "keywords": [
-    "vux",
+    "vux-plus",
     "vue",
     "vue-loader",
-    "vux-loader",
+    "vux-plus-loader",
     "webpack-loader",
     "weui",
     "vue-components",
@@ -18,10 +18,10 @@
     "framework",
     "frontend"
   ],
-  "author": "airyland <airyland@qq.com>",
+  "author": "zhengoogle <zhengoogle@sina.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/airyland/vux-loader"
+    "url": "https://github.com/zhengoogle/vux-loader"
   },
   "license": "MIT",
   "scripts": {

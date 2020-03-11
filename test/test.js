@@ -141,7 +141,7 @@ var parse = require('../src/libs/import-parser')
 const str = parse(`<script>
 import {
         Group
-    } from 'vux';
+    } from 'vux-plus';
 
 `, function (opts) {
   // console.log(opts)
@@ -153,22 +153,22 @@ var commomMapper = function (opts) {
   components = opts.components.map(function (one) {
     return one.newName
   })
-  return `import { ${components.join(', ')} } from 'vux'`
+  return `import { ${components.join(', ')} } from 'vux-plus'`
 }
 
 var vuxMapper = function (opts) {
   let str = ''
   opts.components.forEach(function (one) {
     if (one.originalName === 'AlertPlugin') {
-      str += `import ${one.newName} from 'vux/src/plugins/Alert'\n`
+      str += `import ${one.newName} from 'vux-plus/src/plugins/Alert'\n`
     } else if (one.originalName === 'ToastPlugin') {
-      str += `import ${one.newName} from 'vux/src/plugins/Toast'\n`
+      str += `import ${one.newName} from 'vux-plus/src/plugins/Toast'\n`
     }
   })
   return str
 }
 
-describe('vux-loader', function () {
+describe('vux-plus-loader', function () {
 
   describe('get i18n block', function () {
 
@@ -391,32 +391,32 @@ b: 'C' + 'B' }"></div>`
 
     let tests = [{
       title: 'basic',
-      string: `import {A,B} from 'vux'`,
+      string: `import {A,B} from 'vux-plus'`,
       rs: ['A', 'B']
     }, {
       title: 'basic',
-      string: `import {A,B,} from 'vux'`,
+      string: `import {A,B,} from 'vux-plus'`,
       rs: ['A', 'B']
     }, {
       title: 'without space',
-      string: `import{A,B} from 'vux'`,
+      string: `import{A,B} from 'vux-plus'`,
       rs: ['A', 'B']
     }, {
       title: 'without space 2',
-      string: `import {A,B}from 'vux'`,
+      string: `import {A,B}from 'vux-plus'`,
       rs: ['A', 'B']
     }, {
       title: 'without space 3',
-      string: `import{A,B}from 'vux'`,
+      string: `import{A,B}from 'vux-plus'`,
       rs: ['A', 'B']
     }, {
       title: 'do not parse comments',
-      string: `// import {A,B} from 'vux'
-import { C, D} from 'vux'`,
-      rs: `\nimport { C, D } from 'vux'`
+      string: `// import {A,B} from 'vux-plus'
+import { C, D} from 'vux-plus'`,
+      rs: `\nimport { C, D } from 'vux-plus'`
     }, {
       title: 'use as',
-      string: `import {A,B as C} from 'vux'`,
+      string: `import {A,B as C} from 'vux-plus'`,
       rs: ['A', 'C']
     }, {
       title: 'double quote',
@@ -425,7 +425,7 @@ import { C, D} from 'vux'`,
     }, {
       title: 'multi line and single quote',
       string: `import { A,
-B } from 'vux'`,
+B } from 'vux-plus'`,
       rs: ['A', 'B']
     }, {
       title: 'multi line and double quote',
@@ -441,48 +441,48 @@ B } from "vux"`,
       string: `import C from 'XY'
 import { D } from 'ZW'
 import {A,B} from 'vvv'
-import { C }  from 'vux'`,
+import { C }  from 'vux-plus'`,
       rs: `import C from 'XY'
 import { D } from 'ZW'
 import {A,B} from 'vvv'
-import { C } from 'vux'`
+import { C } from 'vux-plus'`
     }, {
-      title: 'vux test2',
-      string: `import {Group,Cell} from 'vux'
-import value2name from 'vux/src/filters/value2name'`,
-      rs: `import { Group, Cell } from 'vux'
-import value2name from 'vux/src/filters/value2name'`
+      title: 'vux-plus test2',
+      string: `import {Group,Cell} from 'vux-plus'
+import value2name from 'vux-plus/src/filters/value2name'`,
+      rs: `import { Group, Cell } from 'vux-plus'
+import value2name from 'vux-plus/src/filters/value2name'`
 }, {
-      title: 'vux test3',
+      title: 'vux-plus test3',
       string: `import {Group,
-Cell} from 'vux'
-import value2name from 'vux/src/filters/value2name'`,
-      rs: `import { Group, Cell } from 'vux'
-import value2name from 'vux/src/filters/value2name'`
+Cell} from 'vux-plus'
+import value2name from 'vux-plus/src/filters/value2name'`,
+      rs: `import { Group, Cell } from 'vux-plus'
+import value2name from 'vux-plus/src/filters/value2name'`
 }, {
-      title: 'vux test4',
-      string: `import { M1, M2 } from 'vux'
+      title: 'vux-plus test4',
+      string: `import { M1, M2 } from 'vux-plus'
 import { mapMutations, mapState } from 'vuex'
-import { Group, Cell } from 'vux'
-import { Group1, Cell1 } from 'vux'
-import value2name from 'vux/src/filters/value2name'`,
-      rs: `import { M1, M2 } from 'vux'
+import { Group, Cell } from 'vux-plus'
+import { Group1, Cell1 } from 'vux-plus'
+import value2name from 'vux-plus/src/filters/value2name'`,
+      rs: `import { M1, M2 } from 'vux-plus'
 import { mapMutations, mapState } from 'vuex'
-import { Group, Cell } from 'vux'
-import { Group1, Cell1 } from 'vux'
-import value2name from 'vux/src/filters/value2name'`
+import { Group, Cell } from 'vux-plus'
+import { Group1, Cell1 } from 'vux-plus'
+import value2name from 'vux-plus/src/filters/value2name'`
 }, {
-      title: 'vux test5',
+      title: 'vux-plus test5',
       string: `import {
 XX,
-YY} from 'vux'`,
-      rs: `import { XX, YY } from 'vux'`
+YY} from 'vux-plus'`,
+      rs: `import { XX, YY } from 'vux-plus'`
 }, {
-      title: 'vux test6',
+      title: 'vux-plus test6',
       string: `/**/
-import {Divider } from 'vux'`,
+import {Divider } from 'vux-plus'`,
       rs: `/**/
-import { Divider } from 'vux'`
+import { Divider } from 'vux-plus'`
 }]
 
     tests.forEach(function (one) {
@@ -491,23 +491,23 @@ import { Divider } from 'vux'`
         if (typeof one.rs === 'string') {
           expect(rs).to.equal(one.rs)
         } else {
-          expect(rs).to.equal(`import { ${one.rs.join(', ')} } from 'vux'`)
+          expect(rs).to.equal(`import { ${one.rs.join(', ')} } from 'vux-plus'`)
         }
       })
     })
 
-    it('vux test', function () {
-      const rs = parse(`import {AlertPlugin, ToastPlugin} from 'vux'`, vuxMapper)
-      expect(rs).to.equal(`import AlertPlugin from 'vux/src/plugins/Alert'
-import ToastPlugin from 'vux/src/plugins/Toast'
+    it('vux-plus test', function () {
+      const rs = parse(`import {AlertPlugin, ToastPlugin} from 'vux-plus'`, vuxMapper)
+      expect(rs).to.equal(`import AlertPlugin from 'vux-plus/src/plugins/Alert'
+import ToastPlugin from 'vux-plus/src/plugins/Toast'
 `)
     })
 
-    it('vux test7', function () {
-      const rs = parse(`import {AlertPlugin, ToastPlugin} from 'vux'
-// import { AlertPlugin } from 'vux'`, vuxMapper)
-      expect(rs).to.equal(`import AlertPlugin from 'vux/src/plugins/Alert'
-import ToastPlugin from 'vux/src/plugins/Toast'
+    it('vux-plus test7', function () {
+      const rs = parse(`import {AlertPlugin, ToastPlugin} from 'vux-plus'
+// import { AlertPlugin } from 'vux-plus'`, vuxMapper)
+      expect(rs).to.equal(`import AlertPlugin from 'vux-plus/src/plugins/Alert'
+import ToastPlugin from 'vux-plus/src/plugins/Toast'
 
 `)
     })
@@ -516,18 +516,18 @@ import ToastPlugin from 'vux/src/plugins/Toast'
       const rs = parse(`import {
   AlertPlugin,
     ToastPlugin
-} from 'vux';`, vuxMapper)
-      expect(rs).to.equal(`import AlertPlugin from 'vux/src/plugins/Alert'
-import ToastPlugin from 'vux/src/plugins/Toast'
+} from 'vux-plus';`, vuxMapper)
+      expect(rs).to.equal(`import AlertPlugin from 'vux-plus/src/plugins/Alert'
+import ToastPlugin from 'vux-plus/src/plugins/Toast'
 `)
     })
 
     it('issue #1579 (2)', function () {
       const rs = parse(`import {AlertPlugin,
     ToastPlugin
-} from 'vux'`, vuxMapper)
-      expect(rs).to.equal(`import AlertPlugin from 'vux/src/plugins/Alert'
-import ToastPlugin from 'vux/src/plugins/Toast'
+} from 'vux-plus'`, vuxMapper)
+      expect(rs).to.equal(`import AlertPlugin from 'vux-plus/src/plugins/Alert'
+import ToastPlugin from 'vux-plus/src/plugins/Toast'
 `)
     })
 
